@@ -1,0 +1,27 @@
+#IDE files
+.idea/**
+*.iml
+*.ipr
+
+# Gradle-generated directories
+build/**
+classes/**
+.gradle/**
+
+# Java binaries
+*.class
+*.jar
+bin/**
+
+#Generated files
+data/**
+*.csv
+
+#except of src/main/resources/recording.csv
+!src/main/resources/recording.csv
+
+# Logs
+*.log
+
+# SSH keys
+id_rsa
