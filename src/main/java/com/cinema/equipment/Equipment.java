@@ -1,12 +1,15 @@
 package com.cinema.equipment;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 /**
  * @author slyns
  * @version 3/1/17.
  */
 public class Equipment {
   private Type type;
-  private String id;
+  private int id;
   private String description;
 
   public Type getType() {
@@ -17,11 +20,11 @@ public class Equipment {
     this.type = type;
   }
 
-  public String getId() {
+  public int getId() {
     return id;
   }
 
-  public void setId(String id) {
+  public void setId(int id) {
     this.id = id;
   }
 
@@ -40,5 +43,12 @@ public class Equipment {
 
   public String toString() {
     return description;
+  }
+
+  public PreparedStatement fillInsertStatement(PreparedStatement input) throws SQLException {
+    input.setString(1, type.name());
+    input.setString(2, description);
+
+    return input;
   }
 }

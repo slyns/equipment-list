@@ -2,12 +2,11 @@ package com.cinema.equipment.table;
 
 import com.cinema.equipment.Equipment;
 import com.cinema.equipment.Type;
+import com.cinema.equipment.db.DatabaseService;
 
 import java.net.URL;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,21 +18,13 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
-import static com.cinema.equipment.SampleData.getLights;
-import static com.cinema.equipment.SampleData.getSounds;
-import static com.cinema.equipment.SampleData.getVideos;
-
 /**
  * @author slyns
  * @version 3/4/17.
  */
 public class EquipmentTableController implements EventHandler<ActionEvent>, Initializable {
   private int number = 1;
-  private ObservableList<EquipmentTableModel> items = FXCollections.observableList(Stream.of(getLights(), getVideos(), getSounds())
-                                                                                      .flatMap(List::stream)
-                                                                                      .peek(e -> e.setId(String.valueOf(number++)))
-                                                                                      .map(EquipmentTableModel::new)
-                                                                                      .collect(Collectors.toList()));
+  private ObservableList<EquipmentTableModel> items;
 
   @FXML
   private ChoiceBox<Type> typeChoice;
@@ -43,10 +34,15 @@ public class EquipmentTableController implements EventHandler<ActionEvent>, Init
   @FXML
   private TableView<EquipmentTableModel> records;
 
+  private DatabaseService dbService;
+
+  public EquipmentTableController(DatabaseService dbService) {
+    this.dbService = dbService;
+  }
+
   @Override
   public void handle(ActionEvent event) {
-    Equipment newItem = new Equipment(typeChoice.getValue(), descriptionField.getText());
-    newItem.setId(String.valueOf(number++));
+    Equipment newItem = dbService.add(new Equipment(typeChoice.getValue(), descriptionField.getText()));
     items.add(new EquipmentTableModel(newItem));
     typeChoice.setValue(Type.VIDEO);
     descriptionField.clear();
@@ -58,6 +54,8 @@ public class EquipmentTableController implements EventHandler<ActionEvent>, Init
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
+    items = FXCollections.observableList(dbService.getAll().stream().map(EquipmentTableModel::new).collect(Collectors.toList()));
     records.setItems(items);
+
   }
 }

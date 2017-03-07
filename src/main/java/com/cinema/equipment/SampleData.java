@@ -25,4 +25,10 @@ public class SampleData {
   public static List<Equipment> getSounds() {
     return Stream.of(new Equipment(Type.SOUND, "Мікрофон"), new Equipment(Type.SOUND, "Вітрозахист")).collect(Collectors.toList());
   }
+
+  public static List<Equipment> getAll() {
+    return Stream.of(getLights(), getVideos(), getSounds())
+               .flatMap(List::stream)
+               .collect(Collectors.toList());
+  }
 }

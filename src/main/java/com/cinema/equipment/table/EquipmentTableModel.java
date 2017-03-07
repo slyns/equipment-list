@@ -3,6 +3,7 @@ package com.cinema.equipment.table;
 import com.cinema.equipment.Equipment;
 
 import javafx.beans.property.Property;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 /**
@@ -10,17 +11,17 @@ import javafx.beans.property.SimpleStringProperty;
  * @version 3/1/17.
  */
 public class EquipmentTableModel {
-  private SimpleStringProperty id;
+  private SimpleIntegerProperty id;
   private SimpleStringProperty type;
   private SimpleStringProperty description;
 
   public EquipmentTableModel(Equipment item) {
-    this.id = new SimpleStringProperty(item.getId());
+    this.id = new SimpleIntegerProperty(item.getId());
     this.type = new SimpleStringProperty(item.getType().name());
     this.description = new SimpleStringProperty(item.getDescription());
   }
 
-  Property<String> idProperty() {
+  Property<Number> idProperty() {
     return id;
   }
 
@@ -32,11 +33,11 @@ public class EquipmentTableModel {
     return description;
   }
 
-  public void setId(String id) {
+  public void setId(int id) {
     this.id.set(id);
   }
 
-  public String getId() {
+  public int getId() {
     return this.id.get();
   }
 
