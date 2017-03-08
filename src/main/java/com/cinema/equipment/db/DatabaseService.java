@@ -2,7 +2,6 @@ package com.cinema.equipment.db;
 
 import com.cinema.equipment.Equipment;
 import com.cinema.equipment.SampleData;
-import com.cinema.equipment.Type;
 import com.cinema.equipment.exceptions.ApplicationError;
 
 import java.sql.Connection;
@@ -43,7 +42,7 @@ public class DatabaseService {
     try (PreparedStatement selectAll = connection.prepareStatement("select * from EQUIPMENT;")) {
       ResultSet resultSet = selectAll.executeQuery();
       while (resultSet.next()) {
-        results.add(new Equipment(Type.valueOf(resultSet.getString("TYPE")), resultSet.getString("DESCRIPTION")));
+        results.add(from(resultSet));
       }
     } catch (SQLException e) {
       throw new ApplicationError(e);
@@ -70,7 +69,7 @@ public class DatabaseService {
       ResultSet resultSet = selectOne.executeQuery();
       resultSet.next();
 
-      Equipment result = new Equipment(Type.valueOf(resultSet.getString("TYPE")), resultSet.getString("DESCRIPTION"));
+      Equipment result = from(resultSet);
       result.setId(resultSet.getInt("ID"));
       return result;
     } catch (SQLException e) {
@@ -80,7 +79,7 @@ public class DatabaseService {
 
   public Equipment update(Equipment equipment) {
     try (PreparedStatement updateOne = connection.prepareStatement("update EQUIPMENT set MODIFIED_DATE = datetime, TYPE = ?, DESCRIPTION = ? where id = ?")) {
-      updateOne.setString(1, equipment.getType().name());
+      updateOne.setString(1, equipment.getType());
       updateOne.setString(2, equipment.getDescription());
       updateOne.setInt(3, equipment.getId());
       updateOne.execute();
@@ -88,5 +87,9 @@ public class DatabaseService {
     } catch (SQLException e) {
       throw new ApplicationError(e);
     }
+  }
+
+  private Equipment from(ResultSet resultSet) throws SQLException {
+    return new Equipment(resultSet.getInt("ID"), resultSet.getString("TYPE"), resultSet.getString("DESCRIPTION"));
   }
 }

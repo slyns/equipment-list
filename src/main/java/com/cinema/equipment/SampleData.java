@@ -4,9 +4,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import javafx.beans.Observable;
-import javafx.util.Callback;
-
 /**
  * @author slyns
  * @version 3/1/17.
@@ -14,16 +11,16 @@ import javafx.util.Callback;
 public class SampleData {
 
   public static List<Equipment> getVideos() {
-    return Stream.of(new Equipment(Type.VIDEO, "Камера"), new Equipment(Type.VIDEO, "Об’єктив"), new Equipment(Type.VIDEO, "Батарея"))
+    return Stream.of(new Equipment("Відео", "Камера"), new Equipment("Відео", "Об’єктив"), new Equipment("Відео", "Батарея"))
                .collect(Collectors.toList());
   }
 
   public static List<Equipment> getLights() {
-    return Stream.of(new Equipment(Type.LIGHT, "Кіловатник"), new Equipment(Type.LIGHT, "Прожектор 150 Вт")).collect(Collectors.toList());
+    return Stream.of(new Equipment("Світло", "Кіловатник"), new Equipment("Світло", "Прожектор 150 Вт")).collect(Collectors.toList());
   }
 
   public static List<Equipment> getSounds() {
-    return Stream.of(new Equipment(Type.SOUND, "Мікрофон"), new Equipment(Type.SOUND, "Вітрозахист")).collect(Collectors.toList());
+    return Stream.of(new Equipment("Звук", "Мікрофон"), new Equipment("Звук", "Вітрозахист")).collect(Collectors.toList());
   }
 
   public static List<Equipment> getAll() {

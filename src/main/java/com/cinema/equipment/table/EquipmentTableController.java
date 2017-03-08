@@ -1,12 +1,10 @@
 package com.cinema.equipment.table;
 
 import com.cinema.equipment.Equipment;
-import com.cinema.equipment.Type;
 import com.cinema.equipment.db.DatabaseService;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -23,16 +21,15 @@ import javafx.scene.control.TextField;
  * @version 3/4/17.
  */
 public class EquipmentTableController implements EventHandler<ActionEvent>, Initializable {
-  private int number = 1;
-  private ObservableList<EquipmentTableModel> items;
+  private ObservableList<Equipment> items;
 
   @FXML
-  private ChoiceBox<Type> typeChoice;
+  private ChoiceBox<String> typeChoice;
   @FXML
   private TextField descriptionField;
 
   @FXML
-  private TableView<EquipmentTableModel> records;
+  private TableView<Equipment> records;
 
   private DatabaseService dbService;
 
@@ -42,19 +39,14 @@ public class EquipmentTableController implements EventHandler<ActionEvent>, Init
 
   @Override
   public void handle(ActionEvent event) {
-    Equipment newItem = dbService.add(new Equipment(typeChoice.getValue(), descriptionField.getText()));
-    items.add(new EquipmentTableModel(newItem));
-    typeChoice.setValue(Type.VIDEO);
+    items.add(dbService.add(new Equipment(typeChoice.getValue(), descriptionField.getText())));
+    typeChoice.setValue("Відео");
     descriptionField.clear();
-  }
-
-  public ObservableList<EquipmentTableModel> getItems() {
-    return items;
   }
 
   @Override
   public void initialize(URL location, ResourceBundle resources) {
-    items = FXCollections.observableList(dbService.getAll().stream().map(EquipmentTableModel::new).collect(Collectors.toList()));
+    items = FXCollections.observableList(dbService.getAll());
     records.setItems(items);
 
   }

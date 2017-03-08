@@ -8,15 +8,15 @@ import java.sql.SQLException;
  * @version 3/1/17.
  */
 public class Equipment {
-  private Type type;
+  private String type;
   private int id;
   private String description;
 
-  public Type getType() {
+  public String getType() {
     return type;
   }
 
-  public void setType(Type type) {
+  public void setType(String type) {
     this.type = type;
   }
 
@@ -36,7 +36,12 @@ public class Equipment {
     this.description = description;
   }
 
-  public Equipment(Type type, String description) {
+  public Equipment(String type, String description) {
+    this(0, type, description);
+  }
+
+  public Equipment(int id, String type, String description) {
+    this.id = id;
     this.type = type;
     this.description = description;
   }
@@ -46,7 +51,7 @@ public class Equipment {
   }
 
   public PreparedStatement fillInsertStatement(PreparedStatement input) throws SQLException {
-    input.setString(1, type.name());
+    input.setString(1, type);
     input.setString(2, description);
 
     return input;

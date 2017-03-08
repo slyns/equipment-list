@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.cinema.equipment.Type?>
+<?import java.lang.String?>
 <?import javafx.collections.FXCollections?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.cell.PropertyValueFactory?>
+<?import javafx.scene.control.cell.TextFieldTableCell?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.cell.PropertyValueFactory?>
-<?import javafx.scene.control.cell.TextFieldTableCell?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-
 <HBox xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.102-ea" fx:controller="com.cinema.equipment.table.EquipmentTableController">
     <VBox prefWidth="400" spacing="5">
         <padding>
@@ -53,9 +52,9 @@
             <ChoiceBox fx:id="typeChoice">
                 <items>
                     <FXCollections fx:factory="observableArrayList">
-                        <Type fx:value="LIGHT" />
-                        <Type fx:value="VIDEO" />
-                        <Type fx:value="SOUND" />
+                        <String fx:value="Світло" />
+                        <String fx:value="Відео" />
+                        <String fx:value="Звук" />
                     </FXCollections>
                 </items>
             </ChoiceBox>
