@@ -3,37 +3,53 @@ package com.cinema.equipment;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
+import javafx.beans.property.Property;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+
 /**
  * @author slyns
  * @version 3/1/17.
  */
 public class Equipment {
-  private String type;
-  private int id;
-  private String description;
+  private Property<String> type;
+  private Property<Number> id;
+  private Property<String> description;
 
   public String getType() {
-    return type;
+    return type.getValue();
   }
 
   public void setType(String type) {
-    this.type = type;
+    this.type = new SimpleStringProperty(type);
   }
 
   public int getId() {
-    return id;
+    return id.getValue().intValue();
   }
 
   public void setId(int id) {
-    this.id = id;
+    this.id = new SimpleIntegerProperty(id);
   }
 
   public String getDescription() {
-    return description;
+    return description.getValue();
   }
 
   public void setDescription(String description) {
-    this.description = description;
+    this.description = new SimpleStringProperty(description);
+  }
+
+  public Property<Number> idProperty() {
+    return id;
+  }
+
+  public Property<String> typeProperty() {
+    return type;
+  }
+
+  public Property<String> descriptionProperty() {
+    return description;
   }
 
   public Equipment(String type, String description) {
@@ -41,18 +57,18 @@ public class Equipment {
   }
 
   public Equipment(int id, String type, String description) {
-    this.id = id;
-    this.type = type;
-    this.description = description;
+    setId(id);
+    setType(type);
+    setDescription(description);
   }
 
   public String toString() {
-    return description;
+    return description.getValue();
   }
 
   public PreparedStatement fillInsertStatement(PreparedStatement input) throws SQLException {
-    input.setString(1, type);
-    input.setString(2, description);
+    input.setString(1, type.getValue());
+    input.setString(2, description.getValue());
 
     return input;
   }

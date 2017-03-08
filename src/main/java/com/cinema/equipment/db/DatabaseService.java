@@ -12,6 +12,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.beans.value.ChangeListener;
+
 /**
  * @author slyns
  * @version 3/6/17.
@@ -78,7 +80,7 @@ public class DatabaseService {
   }
 
   public Equipment update(Equipment equipment) {
-    try (PreparedStatement updateOne = connection.prepareStatement("update EQUIPMENT set MODIFIED_DATE = datetime, TYPE = ?, DESCRIPTION = ? where id = ?")) {
+    try (PreparedStatement updateOne = connection.prepareStatement("update EQUIPMENT set MODIFIED_DATE = now(), TYPE = ?, DESCRIPTION = ? where id = ?")) {
       updateOne.setString(1, equipment.getType());
       updateOne.setString(2, equipment.getDescription());
       updateOne.setInt(3, equipment.getId());
@@ -90,6 +92,11 @@ public class DatabaseService {
   }
 
   private Equipment from(ResultSet resultSet) throws SQLException {
-    return new Equipment(resultSet.getInt("ID"), resultSet.getString("TYPE"), resultSet.getString("DESCRIPTION"));
+    Equipment item = new Equipment(resultSet.getInt("ID"), resultSet.getString("TYPE"), resultSet.getString("DESCRIPTION"));
+    ChangeListener<String> listener = new EquipmentChangeListener(item, this);
+    item.typeProperty().addListener(listener);
+    item.descriptionProperty().addListener(listener);
+
+    return item;
   }
 }
