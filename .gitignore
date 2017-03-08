@@ -14,11 +14,8 @@ classes/**
 bin/**
 
 #Generated files
-data/**
+db/**
 *.csv
-
-#except of src/main/resources/recording.csv
-!src/main/resources/recording.csv
 
 # Logs
 *.log
